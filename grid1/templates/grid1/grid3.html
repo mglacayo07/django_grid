@@ -1,0 +1,54 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Basic Grid{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        var grid_name = '#jqGrid';
+        var grid_pager = '#jqGrid_pager';
+        var grid = jQuery(grid_name);
+        grid.jqGrid({
+            url: "{% url 'grid1:grid_handler' %}",
+            mtype: "GET",
+            datatype: "json",
+            page: 1,
+            colModel: [
+                {label: "ID", name: 'id', key: true, hidden: false},
+                {label: "Name", name: 'name', hidden: false},
+                {label: "Description", name: 'desc', hidden: false},
+                {label: "Url", name: 'url', align: 'center', hidden: false},
+                {label: "Height", name: 'height', align: 'center', hidden: false},
+            ],
+            loadonce: true,
+            viewrecords: true,
+            autowidth: true,
+            height: 250,
+            sortname: 'id',
+            rowNum: 10,
+            rowList: [10, 20, 30],
+            pager: grid_pager
+        });
+        grid.navGrid(grid_pager, {
+                search: true,
+                add: false,
+                edit: false,
+                del: false,
+                refresh: false
+            }, {}, {}, {}, {});
+        grid.jqGrid('filterToolbar', {stringResult: true, searchOnEnter: false});
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+    <div style="padding-top:5px; text-align:center;">
+        <h1>Mixing Grid</h1>
+        <p class="lead">Grid loaded from database but created on view</p>
+    </div>
+    <div id="grid">
+        <table id="jqGrid"></table>
+        <div id="jqGrid_pager"></div>
+    </div>
+{% endblock %}

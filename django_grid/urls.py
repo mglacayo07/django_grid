@@ -16,7 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from grid1.urls import grid1_patterns
+
 urlpatterns = [
     path('', include('core.urls')),
     path('admin/', admin.site.urls),
+    # Grids Paths
+    path('grid1/',include(grid1_patterns))
 ]

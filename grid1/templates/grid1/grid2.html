@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Basic Grid{% endblock %}
+
+{% block scripts %}
+<script>
+    $.ajax({
+        method: 'GET',
+        url: "{% url 'grid1:grid_config' %}",
+        success: function (data) {
+            console.log(data);
+            $("#jqGrid")
+                .jqGrid(data)
+                .navGrid('#jqGrid_pager',
+                    {add: true, edit: false, del: false, view: true},
+                    {}, // edit options
+                    {}, // add options
+                    {}, // del options
+                    {multipleSearch: true, closeOnEscape: true}, // search options
+                    {jqModal: false, closeOnEscape: true} // view options
+                )
+        },
+        error: function (data) {
+            alert("An error occurred!");
+            console.log(data);
+        },
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div style="padding-top:5px; text-align:center;">
+        <h1>Data Base Grid</h1>
+        <p class="lead">Grid loaded from database</p>
+    </div>
+    <div id="grid">
+        <table id="jqGrid"></table>
+        <div id="jqGrid_pager"></div>
+    </div>
+{% endblock %}
